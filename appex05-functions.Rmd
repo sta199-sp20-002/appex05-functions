@@ -1,0 +1,152 @@
+---
+title: "Functions and Automation"
+author: ""
+date: "2020-02-11"
+output: 
+  html_document
+---
+
+```{r set-up, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE,
+                      comment = "#>", highlight = TRUE,
+                      fig.align = "center")
+```
+
+# Getting started
+
+1. Clone your repo `appex05-[github_name]` to create a new project
+   in RStudio Cloud under the STA 199 class space.
+
+2. Configure git
+      ```{r config-git-ex, eval=FALSE}
+      library(usethis)
+      use_git_config(user.name="your name", user.email="your email")
+      ```
+
+# Packages and Data
+
+We'll make use of the following packages.
+
+```{r load-packages}
+library(tidyverse)
+library(ggpol)
+```
+
+# Tasks
+
+## Task 1
+
+Write a function called `center_measures` that has one argument - `x` a 
+numeric vector. The function should return the mean and median of `x`. 
+Below is some sample code.
+
+```{r task1_ex}
+nums <- c(10, 5, -1, 0, 4)
+c(mean(nums), median(nums))
+```
+
+```{r task1_fcn}
+center_measures <- function() {
+  
+  
+  
+}
+```
+
+
+## Task 2
+
+Turn the following code into a function. How many arguments does it need?
+What is a good name for this function?
+
+```{r eval=FALSE}
+x / sum(x)
+```
+
+```{r task2_fcn}
+
+
+
+```
+
+## Task 3
+
+```{r}
+congress <- read_csv("http://www2.stat.duke.edu/courses/Spring20/sta199.002/appex/congress_long.csv")
+congress
+```
+
+Write a `for` loop to compute the number of unique values in each column of
+tibble `congress`. Try to stay within the `tidyverse` syntax as much as
+possible.
+
+You may find function `length()` useful. Below are some examples of it in 
+action.
+
+```{r}
+length(1:10)
+length(c("a", "ab", "abc", "abcd"))
+length(seq(from = 2, to = 10, by = 2))
+```
+
+
+```{r task3_loop}
+
+
+
+```
+
+## Task 4
+
+Function `plot_congress()` is similar to the function in the slides. I added
+some annotation so we know the year and legislative branch.
+
+```{r echo=FALSE}
+plot_congress <- function(year, leg_branch) {
+  congress %>% 
+    filter(year_start == year, branch == leg_branch) %>% 
+    ggplot() +
+    geom_parliament(aes(seats = seats, fill = factor(party)), 
+                    show.legend = FALSE, color = "black") +
+    scale_fill_manual(values = c("#3A89CB", "#D65454", "#BF6FF0", "Grey"), 
+                      labels = c("Dem", "GOP", "Other", "Vacant")) +
+    annotate("text", x = 0, y = .5, label = paste(year, leg_branch), 
+             size = 12) +
+    labs(fill = "Party") +
+    coord_fixed() +
+    theme_void()
+}
+```
+
+Run the example below to see the change that was made with `annotate()`.
+
+```{r}
+plot_congress(year = 2019, leg_branch = "house")
+```
+
+Use function `plot_congress()` to create a GIF by creating plots for each year
+in object `congress` from 1993 to 2019. You'll need to put your function
+call inside print and figure out the loop sequence. Once you are done,
+remove chunk option `eval=FALSE`.
+
+```{r GIF, eval=FALSE, animation.hook="gifski", interval=.75, fig.cap="Dem: blue, GOP: red, Other: purple, Vacant: grey"}
+for () {
+  print({
+    
+  })
+}
+```
+
+# Slide notes
+
+
+
+
+
+# References
+
+1. Grolemund, G., & Wickham, H. (2020). R for Data Science. R4ds.had.co.nz. 
+   Retrieved 9 February 2020, from https://r4ds.had.co.nz/
+   
+2. erocoar/ggpol. (2020). GitHub. Retrieved 9 February 2020, from
+   https://github.com/erocoar/ggpol
